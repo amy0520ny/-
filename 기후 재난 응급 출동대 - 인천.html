@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>기후 재난 응급 출동대 - 인천</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e3f5da;--card:#fff;--ink:#27412e;--sub:#557460;--line:#b9e0a8;--pri:#2fa84f;--ok:#2bb673;--bad:#ef5b5b;--blue:#3b9cff;--box:#f3ffd6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14291b;--card:#1f3a28;--ink:#eefbe9;--sub:#b3cfb9;--line:#356b45;--box:#2f4a26}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Pretendard','Pretendard Variable','Noto Sans KR',sans-serif;line-height:1.5}
+.wrap{max-width:760px;margin:0 auto;padding:14px}
+h1{font-size:26px;margin:6px 0;text-align:center;font-weight:900}
+.card{background:var(--card);border:3px solid var(--line);border-radius:22px;padding:14px;margin:12px 0}
+.btn{font-family:inherit;font-weight:900;font-size:20px;background:var(--pri);color:#fff;border:0;border-radius:18px;padding:14px 26px;cursor:pointer;box-shadow:0 5px 0 #1f7d3a}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #1f7d3a}.btn:disabled{opacity:.5}
+.center{text-align:center}
+.top{display:flex;gap:8px;justify-content:space-between;font-weight:700;flex-wrap:wrap}
+.pill{background:var(--box);border-radius:999px;padding:4px 12px}
+.bar{height:22px;background:var(--line);border-radius:12px;overflow:hidden;margin:4px 0 10px}
+.bar>div{height:100%;transition:width .8s;border-radius:12px}
+.city{font-size:34px;letter-spacing:2px;text-align:center;min-height:52px}
+.big{font-size:64px;display:inline-block;animation:bob 1.2s infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-4deg)}}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.opt{font-family:inherit;color:var(--ink);text-align:left;background:var(--card);border:3px solid var(--line);border-radius:18px;padding:12px;cursor:pointer;font-size:16px}
+.opt.on{border-color:var(--pri);background:var(--box)}.opt:disabled{opacity:.45;cursor:not-allowed}
+.opt b{display:block;font-size:17px}.cost{float:right;background:#ffcf33;color:#5a3d00;border-radius:10px;padding:0 8px;font-weight:700}
+.res li{margin:4px 0}
+.grid{display:grid;grid-template-columns:1fr 150px;gap:10px;margin:12px 0}
+.map{position:relative;aspect-ratio:5/4;border:4px solid #4aa05a;border-radius:22px;overflow:hidden}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;font-size:clamp(18px,4vw,28px);transform:translate(-50%,-50%)}
+.lab{position:absolute;transform:translate(-50%,0);background:#fffd;color:#27412e;border-radius:8px;padding:0 6px;font-size:12px;font-weight:700}
+.warn{position:absolute;transform:translate(-50%,-50%);font-size:clamp(40px,9vw,64px);animation:pop .7s infinite alternate;filter:drop-shadow(0 3px 0 #0004);text-align:center;line-height:1}
+.warn small{display:block;font-size:.6em}
+@keyframes pop{to{transform:translate(-50%,-62%) scale(1.15)}}
+.ban{position:absolute;top:0;left:0;right:0;background:#ef5b5b;color:#fff;font-weight:900;text-align:center;padding:4px;font-size:15px;animation:bl 1s infinite alternate}
+@keyframes bl{to{background:#ff9a3d}}
+.side{background:var(--card);border:3px solid var(--line);border-radius:22px;padding:10px;display:flex;flex-direction:column;gap:6px;font-weight:700}
+.coin{text-align:center;background:#fff3b8;color:#5a3d00;border-radius:16px;padding:8px}
+.coin span{font-size:40px;display:block;line-height:1.1}.coin b{font-size:34px}.coin small{display:block}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+.shake{animation:sh .5s 2}@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+</style></head><body><div class="wrap">
+<h1>🚒 기후 재난 응급 출동대 🚨</h1>
+<div id="app"></div>
+</div>
+<script>
+const D=[
+{n:'대형 산불 비상!',i:'🔥',se:['봄','가을'],d:'오랫동안 비가 안 와서 건조 특보가 내렸어요. 강화도와 계양산 근처에서 큰 산불이 번지고 있어요!',base:55,c:[
+{t:'숲 가꾸기 · 방화선 구축',i:'🌲',c:30,d:-35,s:15,m:'방화선이 불길을 딱 막아 줬어요!'},
+{t:'산불 감시 드론 출동',i:'🚁',c:20,d:-22,s:8,m:'드론이 불씨를 빨리 찾았어요.'},
+{t:'산 근처 주민 대피 방송',i:'📢',c:10,d:-12,s:6,m:'주민들이 안전하게 피했어요.'},
+{t:'불꽃 축제 열기',i:'🎆',c:15,d:12,s:-12,m:'어머나! 불씨가 더 퍼졌어요.'}]},
+{n:'폭염 경보! 너무 더워요',i:'🥵',se:['여름'],d:'며칠째 35도가 넘어요. 부평·남동 거리에 그늘도 쉼터도 부족해요. 어르신과 아이들이 힘들어해요!',base:50,c:[
+{t:'무더위 쉼터 확충',i:'🏢',c:25,d:-28,s:18,m:'시원한 쉼터에서 모두 쉬었어요.'},
+{t:'야외 작업 중단령',i:'🛑',c:10,d:-18,s:8,m:'일하던 분들이 더위를 피했어요.'},
+{t:'쿨링로드 · 물안개 설치',i:'💦',c:20,d:-20,s:12,m:'길이 시원해졌어요!'},
+{t:'그냥 지켜보기',i:'🙈',c:0,d:8,s:-10,m:'쓰러지는 분이 생겼어요...'}]},
+{n:'갑작스러운 폭우!',i:'🌧️',se:['여름','가을'],d:'짧은 시간에 비가 쏟아졌어요. 지하차도와 도심 도로가 물에 잠기고 있어요!',base:60,c:[
+{t:'배수 펌프장 점검',i:'🔧',c:25,d:-30,s:12,m:'펌프가 물을 쑥쑥 빼냈어요.'},
+{t:'침수 위험지역 대피령',i:'🏃',c:15,d:-25,s:15,m:'주민들이 높은 곳으로 안전하게 이동!'},
+{t:'지하차도 통제',i:'🚧',c:10,d:-18,s:8,m:'차가 물에 갇히지 않았어요.'},
+{t:'우산 나눠주기',i:'☂️',c:10,d:-2,s:-4,m:'우산만으론 물이 안 빠져요.'}]}];
+const R=6,$=a=>document.getElementById('app'),clamp=v=>Math.max(0,Math.min(100,Math.round(v)));
+let S;
+function start(){S={r:0,b:80,dmg:0,tr:70,y:2027};next()}
+function pick(){const d=D[Math.random()*3|0];return d}
+function next(){S.r++;S.y+=1+(Math.random()*2|0);S.cur=pick();S.se=S.cur.se[Math.random()*S.cur.se.length|0];S.sel=new Set();if(S.r>1)S.b+=25;play()}
+const LOC={'대형 산불 비상!':{x:62,y:22,t:'계양산'},'폭염 경보! 너무 더워요':{x:46,y:48,t:'부평·남동'},'갑작스러운 폭우!':{x:27,y:60,t:'서구 지하차도'}};
+const HS=[[20,32],[28,46],[36,66],[40,38],[52,60],[56,46],[70,58],[76,42],[50,78],[30,80]];
+const LB=[[7,24,'강화도'],[62,36,'계양산'],[46,56,'부평·남동'],[28,68,'서구'],[84,86,'인천 앞바다 🌊']];
+function hud(w){const bad=Math.floor(S.dmg/10);
+const homes=HS.map((p,i)=>`<span class="pin" style="left:${p[0]}%;top:${p[1]}%">${i<bad?'🏚️':['🏠','🏢','🏫','🏘️'][i%4]}</span>`).join('');
+const labs=LB.map(l=>`<span class="lab" style="left:${l[0]}%;top:${l[1]}%">${l[2]}</span>`).join('');
+const L=w&&LOC[S.cur.n];
+const warn=L?`<div class="warn" style="left:${L.x}%;top:${L.y}%">⚠️<small>${S.cur.i}</small></div><div class="ban">⚠️ ${S.cur.n} · ${L.t} ⚠️</div>`:'';
+const svg=`<svg viewBox="0 0 100 100" preserveAspectRatio="none"><rect width="100" height="100" fill="#8fd67a"/><path d="M0 0H12C16 15 8 28 13 45C17 60 8 78 14 100H0Z" fill="#7cc4f0"/><path d="M78 100C84 92 92 90 100 88V100Z" fill="#7cc4f0"/><ellipse cx="8" cy="16" rx="7" ry="11" fill="#5fb85c"/><ellipse cx="62" cy="20" rx="16" ry="13" fill="#5fb85c"/><ellipse cx="62" cy="18" rx="8" ry="7" fill="#3f9a4a"/><rect x="70" y="72" width="20" height="14" rx="4" fill="#a8e28f"/><path d="M20 100C30 84 40 84 55 74S85 66 100 62" stroke="#7cc4f0" stroke-width="3" fill="none"/><path d="M14 42H100M46 22V100M26 56H82" stroke="#f7f0d0" stroke-width="2" fill="none"/></svg>`;
+return `<div class="grid"><div class="map">${svg}${labs}${homes}${warn}</div><div class="side"><div class="coin"><span>🪙</span><b>${S.b}</b><small>도시 예산</small></div><div class="pill">📅 ${S.y}년 ${S.se||''}</div><div class="pill">🔔 ${Math.min(S.r,R)}/${R}번째 출동</div><div>💥 피해 지수 ${S.dmg}<div class="bar"><div style="width:${S.dmg}%;background:var(--bad)"></div></div></div><div>😊 안심 지수 ${S.tr}<div class="bar"><div style="width:${S.tr}%;background:var(--ok)"></div></div></div></div></div>`}
+function intro(){document.getElementById('app').innerHTML=`<div class="card center"><div class="big">🌏</div><h2>인천 시민을 지켜 주세요!</h2><p>인천에 갑자기 이상기후 재난이 찾아와요.<br>제한된 도시 예산으로 알맞은 <b>대응 카드</b>를 골라 출동하세요.<br>피해는 줄이고 주민 안심은 높이면 성공! 총 ${R}번 출동해요.</p><button class="btn" onclick="start()">출동 준비 완료! 🚒</button></div>`}
+function play(){const c=S.cur;const cost=[...S.sel].reduce((a,k)=>a+c.c[k].c,0);
+document.getElementById('app').innerHTML=hud(1)+`<div class="card center shake"><div class="big">${c.i}</div><h2>${c.n}</h2><p>${c.d}</p></div>
+<div class="card"><b>🃏 대응 카드를 골라요 (여러 장 가능)</b><div class="cards" style="margin-top:8px">${c.c.map((o,k)=>`<button class="opt ${S.sel.has(k)?'on':''}" ${(!S.sel.has(k)&&cost+o.c>S.b)?'disabled':''} onclick="tog(${k})"><span class="cost">💰${o.c}</span><b>${o.i} ${o.t}</b></button>`).join('')}</div>
+<p class="center">쓸 예산: <b>${cost}</b> / ${S.b}</p><div class="center"><button class="btn" onclick="go()">출동! 🚨</button></div></div>`}
+function tog(k){S.sel.has(k)?S.sel.delete(k):S.sel.add(k);play()}
+function go(){const c=S.cur;let cost=0,sd=0,ss=0,ms=[];S.sel.forEach(k=>{const o=c.c[k];cost+=o.c;sd+=o.d;ss+=o.s;ms.push(`${o.i} ${o.m}`)});
+const net=Math.max(0,c.base+sd);S.b-=cost;
+S.dmg=clamp(S.dmg+net*0.4-3);S.tr=clamp(S.tr+ss-net*0.3+5);
+const face=net<15?'🎉 완벽해요!':net<35?'👍 잘 막았어요!':'😢 피해가 컸어요...';
+const end=S.r>=R;
+document.getElementById('app').innerHTML=hud()+`<div class="card"><h2>📋 결과: ${face}</h2><p>이번 재난 피해 ${net} · 쓴 예산 ${cost}</p><ul class="res">${ms.length?ms.map(m=>`<li>${m}</li>`).join(''):'<li>아무 카드도 안 골랐어요... 😰</li>'}</ul><div class="center"><button class="btn" onclick="${end?'fin()':'next()'}">${end?'최종 결과 보기 🏆':'다음 출동 ▶'}</button></div></div>`}
+function fin(){const sc=Math.round((100-S.dmg)*0.5+S.tr*0.5);const g=sc>=80?['🥇','인천 영웅 대장!']:sc>=60?['🥈','믿음직한 출동대원']:sc>=40?['🥉','씩씩한 새내기 대원']:['🌱','다시 도전해 봐요!'];
+document.getElementById('app').innerHTML=hud()+`<div class="card center"><div class="big">${g[0]}</div><h2>${g[1]}</h2><p>종합 점수 <b>${sc}점</b></p><p>🌍 기후 재난은 미리 준비할수록 피해가 줄어요. 쉼터, 배수 펌프, 대피 훈련이 모두 소중해요!</p><button class="btn" onclick="start()">다시 출동! 🔄</button></div>`}
+intro();
+</script></body></html>
